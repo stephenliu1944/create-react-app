@@ -1,0 +1,12 @@
+﻿.idea
+.settings
+.vscode
+.DS_Store
+.eslintcache
+.stylelintcache
+*.log
+*.iml
+*.project
+node_modules
+build
+dist
