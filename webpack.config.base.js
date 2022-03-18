@@ -73,12 +73,12 @@ export default function(env) {
     module: {
       rules: [{
         /**
-                 * webpack按顺序查找匹配的loader
-                 */
+         * webpack按顺序查找匹配的loader
+         */
         oneOf: [{
           /**
-                     * 主项目js
-                     */
+           * 主项目js
+           */
           test: /\.(js|ts)x?$/,
           exclude: /node_modules/,
           use: {
@@ -89,8 +89,8 @@ export default function(env) {
           }
         }, {
           /**
-                     * 主项目样式
-                     */
+           * 主项目样式
+           */
           test: /\.(css|less)$/,
           include: path.resolve(__dirname, 'src'),
           use: [{
@@ -118,8 +118,8 @@ export default function(env) {
           }]
         }, {
           /**
-                     * 第三方样式
-                     */
+           * 第三方样式
+           */
           test: /\.(css|less)$/,
           exclude: path.resolve(__dirname, 'src'),
           use: [
@@ -136,8 +136,8 @@ export default function(env) {
           ]
         }, {
           /**
-                     * 全局图片
-                     */
+           * 全局图片
+           */
           test: /\.(bmp|png|jpg|jpeg|gif|svg)$/,
           exclude: path.resolve(__dirname, 'src/fonts'),
           type: 'asset/resource',
@@ -146,8 +146,8 @@ export default function(env) {
           }
         }, {
           /**
-                     * 全局字体
-                     */
+           * 全局字体
+           */
           test: /\.(woff|woff2|eot|ttf|svg)$/,
           type: 'asset/resource',
           generator: {
