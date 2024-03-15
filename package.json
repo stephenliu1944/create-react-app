@@ -1,6 +1,6 @@
 {
   "name": "app-name",
-  "description": "集致应用项目",
+  "description": "Web应用项目",
   "version": "1.0.0",
   "private": true,
   "parcel": {
