@@ -4,56 +4,56 @@
 
 // 内部函数, 用于判断对象类型
 function _getClass(obj: any): string {
-    return Object?.prototype?.toString?.call(obj)?.match(/^\[object\s(.*)\]$/)[1];
+  return Object?.prototype?.toString?.call(obj)?.match(/^\[object\s(.*)\]$/)[1];
 }
 
 export function isArray(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'array';
+  return _getClass(obj).toLowerCase() === 'array';
 }
 
 export function isString(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'string';
+  return _getClass(obj).toLowerCase() === 'string';
 }
 
 export function isDate(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'date';
+  return _getClass(obj).toLowerCase() === 'date';
 }
 
 export function isObject(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'object';
+  return _getClass(obj).toLowerCase() === 'object';
 }
 
 export function isNumber(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'number';
+  return _getClass(obj).toLowerCase() === 'number';
 }
 
 export function isFormData(obj: any): boolean {
-    return (typeof FormData !== 'undefined') && (obj instanceof FormData);
+  return (typeof FormData !== 'undefined') && (obj instanceof FormData);
 }
 
 export function isFile(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'file';
+  return _getClass(obj).toLowerCase() === 'file';
 }
 
 export function isBlob(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'blob';
+  return _getClass(obj).toLowerCase() === 'blob';
 }
 
 export function isFunction(obj: any): boolean {
-    return _getClass(obj).toLowerCase() === 'function';
+  return _getClass(obj).toLowerCase() === 'function';
 }
 
 export function isURLSearchParams(obj: any): boolean {
-    return typeof URLSearchParams !== 'undefined' && obj instanceof URLSearchParams;
+  return typeof URLSearchParams !== 'undefined' && obj instanceof URLSearchParams;
 }
 
 export function isIE(): boolean {
-    let userAgent = navigator.userAgent;
-    if (userAgent.indexOf('compatible') > -1 &&
+  const userAgent = navigator.userAgent;
+  if (userAgent.indexOf('compatible') > -1 &&
         userAgent.indexOf('MSIE') > -1) {
-        return true;
-    }
-    return false;
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -61,34 +61,34 @@ export function isIE(): boolean {
  * @param {object} obj 需判断的对象
  */
 export function isEmpty(obj: any): boolean {
-    let empty = false;
+  let empty = false;
 
-    if (obj === null || obj === undefined) { // null and undefined
-        empty = true;
-    } else if ((isArray(obj) || isString(obj)) && obj.length === 0) {
-        empty = true;
-    } else if (isObject(obj)) {
-        let hasProp = false;
-        for (let prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                hasProp = true;
-                break;
-            }
-        }
-        if (!hasProp) {
-            empty = true;
-        }
-    } else if (isNumber(obj) && isNaN(obj)) {
-        empty = true;
+  if (obj === null || obj === undefined) { // null and undefined
+    empty = true;
+  } else if ((isArray(obj) || isString(obj)) && obj.length === 0) {
+    empty = true;
+  } else if (isObject(obj)) {
+    let hasProp = false;
+    for (const prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        hasProp = true;
+        break;
+      }
     }
-    return empty;
+    if (!hasProp) {
+      empty = true;
+    }
+  } else if (isNumber(obj) && isNaN(obj)) {
+    empty = true;
+  }
+  return empty;
 }
 
 /**
  * @desc 判断参数是否不为空
  */
 export function isNotEmpty(obj: any): boolean {
-    return !isEmpty(obj);
+  return !isEmpty(obj);
 }
 
 /**
@@ -96,19 +96,19 @@ export function isNotEmpty(obj: any): boolean {
  * @param {string} str 需判断的字符串
  */
 export function isBlank(str: string): boolean {
-    if (isEmpty(str)) {
-        return true;
-    } else if (isString(str) && str.trim().length === 0) {
-        return true;
-    }
-    return false;
+  if (isEmpty(str)) {
+    return true;
+  } else if (isString(str) && str.trim().length === 0) {
+    return true;
+  }
+  return false;
 }
 
 /**
  * @desc 判断参数是否不为空字符串
  */
 export function isNotBlank(obj: string): boolean {
-    return !isBlank(obj);
+  return !isBlank(obj);
 }
 
 /**
@@ -118,51 +118,51 @@ export function isNotBlank(obj: string): boolean {
  * @param {string} wait 间隔时间
  * @param {string} options 可选项
  */
-export function throttle(func: Function, wait: number, options: {leading?: boolean, trailing?: boolean}): Function {
-    let context: object, args: object, result: Function;
-    let timeout: number | null = null;
-    let previous: number = 0;
+export function throttle(func: Function, wait: number, options: { leading?: boolean, trailing?: boolean, }, ...res: any): Function {
+  let context: object, args: object, result: Function;
+  let timeout: number | null = null;
+  let previous = 0;
 
-    if (!options) {
-        options = {};
+  if (!options) {
+    options = {};
+  }
+
+  const later = function() {
+    previous = options.leading === false ? 0 : +new Date();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) {
+      context = args = null;
+    }
+  };
+
+  return function(this: typeof throttle) {
+    const now: number = +new Date();
+
+    if (!previous && options.leading === false) {
+      previous = now;
     }
 
-    let later = function() {
-        previous = options.leading === false ? 0 : +new Date();
+    const remaining: number = wait - (now - previous);
+    context = this;
+    args = res;
+
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        window.clearTimeout(timeout);
         timeout = null;
-        result = func.apply(context, args);
-        if (!timeout) {
-            context = args = null;
-        }
-    };
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) {
+        context = args = null;
+      }
+    } else if (!timeout && options.trailing !== false) {
+      timeout = window.setTimeout(later, remaining);
+    }
 
-    return function(this: typeof throttle) {
-        let now: number = +new Date();
-        
-        if (!previous && options.leading === false) {
-            previous = now;
-        } 
-        
-        let remaining: number = wait - (now - previous);
-        context = this;
-        args = arguments;
-        
-        if (remaining <= 0 || remaining > wait) {
-            if (timeout) {
-                window.clearTimeout(timeout);
-                timeout = null;
-            }
-            previous = now;
-            result = func.apply(context, args);
-            if (!timeout) {
-                context = args = null;
-            }
-        } else if (!timeout && options.trailing !== false) {
-            timeout = window.setTimeout(later, remaining);
-        }
-
-        return result;
-    };
+    return result;
+  };
 }
 
 /**
@@ -176,43 +176,43 @@ export function throttle(func: Function, wait: number, options: {leading?: boole
  * @param {wait} 参数wait则是需要等待的时间，单位为毫秒
  * @param {immediate} immediate参数如果为true，则debounce函数会在调用时立刻执行一次function，而不需要等到wait这个时间后，
  */
-export function debounce(func: Function, wait: number, immediate: boolean): Function {
-    let timeout: number | null = null;
-    let result: () => void | null = null;
-    let debounced = function(this: typeof debounce) {
-        let context = this;
-        let args = arguments;
-        
-        if (timeout) {
-            window.clearTimeout(timeout);
-        }
+export function debounce(func: Function, wait: number, immediate: boolean, ...res: any): Function {
+  let timeout: number | null = null;
+  let result: () => void | null = null;
+  const debounced = function(_this: typeof debounce) {
+    const context = _this;
+    const args = res;
 
-        if (immediate) {
-            // 如果已经执行过，不再执行
-            let callNow = !timeout;
+    if (timeout) {
+      window.clearTimeout(timeout);
+    }
 
-            if (callNow) {
-                result = func.apply(context, args);
-            }
+    if (immediate) {
+      // 如果已经执行过，不再执行
+      const callNow = !timeout;
 
-            timeout = window.setTimeout(function() {
-                // timeout 为 null 的时候 callNow 才为 true.
-                timeout = null;
-            }, wait);
-        } else {
-            timeout = window.setTimeout(function() {
-                func.apply(context, args);
-            }, wait);
-        }
-        return result;
-    };
+      if (callNow) {
+        result = func.apply(context, args);
+      }
 
-    (debounced as any).cancel = function() {
-        window.clearTimeout(timeout);
+      timeout = window.setTimeout(function() {
+        // timeout 为 null 的时候 callNow 才为 true.
         timeout = null;
-    };
+      }, wait);
+    } else {
+      timeout = window.setTimeout(function() {
+        func.apply(context, args);
+      }, wait);
+    }
+    return result;
+  };
 
-    return debounced;
+  (debounced as any).cancel = function() {
+    window.clearTimeout(timeout);
+    timeout = null;
+  };
+
+  return debounced;
 }
 
 /**
@@ -221,18 +221,18 @@ export function debounce(func: Function, wait: number, immediate: boolean): Func
  * @param {String} separator 分隔符
  * @return {Array} 切分的数组.
  */
-export function spliteStr(str: string, separator: string = ','): string[] {
-    if (isBlank(str)) {
-        return [];
+export function spliteStr(str: string, separator = ','): string[] {
+  if (isBlank(str)) {
+    return [];
+  }
+
+  const array: Array<string> = [];
+
+  str.split(separator).forEach(substring => {
+    const substr = substring.trim();
+    if (substr.length > 0) {
+      array.push(substr);
     }
-
-    let array: Array<string> = [];
-
-    str.split(separator).forEach(substring => {
-        let substr = substring.trim();
-        if (substr.length > 0) {
-            array.push(substr);
-        }
-    });
-    return array;
+  });
+  return array;
 }

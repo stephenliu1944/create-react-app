@@ -1,9 +1,9 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import ErrorBoundary from 'Components/errorBoundary/ErrorBoundary';
-import MainLayout from 'Layouts/mainLayout/MainLayout';
+import ErrorBoundary from 'Components/errorBoundary';
+import MainLayout from 'Layouts/mainLayout';
 
 export default function App() {
+
   return (
     <ErrorBoundary>
       <Switch>

@@ -18,7 +18,6 @@ gulp:           v4
 eslint:         v7
 stylelint       v13
 jest            v26
-enzyme          v3
 node            v10+
 ```
 
@@ -49,7 +48,7 @@ mock                                        // mock 服务目录
 |-mock.config.js                            // mock 服务全局配置
 |-README.md                                 // mock 服务文档
 script                                      // 脚本文件
-|-env.js                                    // 根据源码所在 git 分支, 动态修改 environment.js 配置文件
+|-env.sh                                    // 根据代码所在 git 分支, 动态切换 .env.development, .env.test, .env.production 环境配置
 src                                         // 项目源码目录
 |-components                                // 公共组件目录, 注意: 功能组件不能嵌套, 是原子级.
     |-component1
@@ -98,29 +97,34 @@ src                                         // 项目源码目录
 |-bootstrap.js                              // 应用的引导文件.
 |-index.js                                  // 入口文件.
 |-template.ejs                              // 页面模板文件.
-test                                        // 测试代码目录, 目录结构同src
+tests                                       // 测试代码目录, 目录结构同src
 |-components
 |-hooks
 |-pages
     ...
+.browserslistrc                             // 浏览器版本兼容配置文件.
 .dockerignore                               // docker 忽略打包的配置文件.
+.env                                        // 本地调试配置文件
+.env.development                            // 开发环境配置文件
+.env.production                             // 生产环境配置文件
+.env.test                                   // 测试环境配置文件
 .eslintignore                               // eslint 忽略校验配置文件.
 .eslintrc.js                                // eslint 开发环境代码校验配置文件.
 .eslintrc.prod.js                           // eslint 生产环境代码校验配置文件, 比开发环境更加严格, 发版和提交代码时会自动执行此配置校验代码.
 .gitignore                                  // git 忽略提交配置文件.
+.lintstagedrc                               // litstage配置文件.
 .stylelintignore                            // stylelint 忽略校验配置文件.
+.yarnrc                                     // npm资源下载配置.
 babel.config.js                             // babel 配置文件.
-CHANGELOG.md                                // 项目更新日志.
+commitlint.config.js                        // git commit格式校验.
 Dockerfile                                  // docker镜像配置文件.
-environment.js                              // 环境变量配置, 根据不同 git 分支动态发生变化.
-enzyme.config.js                            // enzyme 配置文件.
-fileTransformer.js                          // jest 文件转换配置文件.
 gulpfile.babel.js                           // 项目手动发布脚本.
 jest.config.js                              // jest 配置文件.
 package.json                                // npm 配置文件.
 postcss.config.js                           // postcss 插件配置文件.
 README.md                                   // 脚手架说明文档.
-stylelint.config.js                         // stylelint 校验规则配置文件
+stylelint.config.js                         // stylelint 校验规则配置文件.
+tsconfig.json                               // vscode 中typescript配置文件.
 webpack.config.base.js                      // webpack 公共配置.
 webpack.config.dev.babel.js                 // webpack 开发环境配置文件.
 webpack.config.prod.babel.js                // webpack 生产环境配置文件.
@@ -129,7 +133,7 @@ webpack.config.prod.babel.js                // webpack 生产环境配置文件.
 ## 安装
 下载项目后在项目根目录执行
 ```
-npm install
+yarn install
 ```
 
 ## CSS处理

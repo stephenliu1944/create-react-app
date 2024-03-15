@@ -1,7 +1,7 @@
-import { merge } from 'webpack-merge';
+import { devEnvironments } from './package.json';
 import proxyConfig from '@easytool/proxy-config';
 import WebpackBundleAnalyzer from 'webpack-bundle-analyzer';
-import { devEnvironments } from './package.json';
+import { merge } from 'webpack-merge';
 import getBaseConfig from './webpack.config.base';
 
 const { servers, proxies } = devEnvironments;
@@ -14,18 +14,21 @@ export default merge(baseConfig, {
   devtool: 'cheap-module-source-map',
   devServer: {
     host: '0.0.0.0',
-    // allowedHosts: ['local.xxx.com'],
+    allowedHosts: 'all',
     port: servers.local,
     http2: false,
     https: false,
     compress: true,             // gzip 压缩
     historyApiFallback: {
       index: output.publicPath,
-      disableDotRule: true
+      disableDotRule: true,
+    },
+    client: {
+      overlay: false,
     },
     proxy: {
-      ...proxyConfig(proxies)
-    }
+      ...proxyConfig(proxies),
+    },
   },
   plugins: [
     // 依赖包大小分析
@@ -33,5 +36,5 @@ export default merge(baseConfig, {
     //   analyzerPort: 9090,
     //   logLevel: 'error'
     // })
-  ]
+  ],
 });
