@@ -1,10 +1,10 @@
-import { merge } from 'webpack-merge';
-import TerserPlugin from 'terser-webpack-plugin';
-import FileManagerPlugin from 'filemanager-webpack-plugin';
-import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import getBaseConfig from './webpack.config.base';
 import { name, parcel } from './package.json';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import FileManagerPlugin from 'filemanager-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
+import { merge } from 'webpack-merge';
+import getBaseConfig from './webpack.config.base';
 
 const { format = 'zip' } = parcel;
 const MODE = 'production';
@@ -16,29 +16,29 @@ export default merge(baseConfig, {
   optimization: {
     minimizer: [
       new TerserPlugin(),                 // Webpack5 默认就是 TerserPlugin, 这样写方便修改配置
-      new CssMinimizerPlugin()
-    ]
+      new CssMinimizerPlugin(),
+    ],
   },
   plugins: [
     new FileManagerPlugin({
       events: {
         onStart: [{
-          delete: ['./dist']
+          delete: ['./dist'],
         }],
         onEnd: [{
           copy: [{
             source: './build',
-            destination: `./dist/${name}`
+            destination: `./dist/${name}`,
           }],
           archive: [{
             source: './dist',
             destination: `./dist/${name}.${format}`,
-            format: format
-          }]
-        }]
-      }
+            format: format,
+          }],
+        }],
+      },
     }),
     // 主要用于服务端
-    new WebpackManifestPlugin()
-  ]
+    new WebpackManifestPlugin(),
+  ],
 });

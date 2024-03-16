@@ -1,5 +1,9 @@
+var autoprefixer = require('autoprefixer');
+var reporter = require('postcss-reporter');
+
 module.exports = {
-    plugins: [
-        require('autoprefixer')
-    ]
+  plugins: [
+    autoprefixer,
+    reporter(),
+  ],
 };
