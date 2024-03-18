@@ -18,7 +18,7 @@ export default class MainLayout extends Component {
     return (
       <div className={styles.mainLayout}>
         <Header />
-        <div className={styles.container}>
+        <div className={styles.main}>
           <Switch>
             <Route exact path="/home" component={Home} />
             {/* 路由加在这里 */}
