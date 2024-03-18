@@ -1,0 +1,24 @@
+{
+  "include": ["src", "tests"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "Components/*": ["src/components/*"],
+      "Config/*": ["src/config/*"],
+      "Constants/*": ["src/constants/*"],
+      "Enums/*": ["src/enums/*"],
+      "Contexts/*": ["src/contexts/*"],
+      "Fonts/*": ["src/fonts/*"],
+      "Hooks/*": ["src/hooks/*"],
+      "Images/*": ["src/images/*"],
+      "Layouts/*": ["src/layouts/*"],
+      "Pages/*": ["src/pages/*"],
+      "Services/*": ["src/services/*"],
+      "Styles/*": ["src/styles/*"],
+      "Types/*": ["src/types/*"],
+      "Utils/*": ["src/utils/*"],
+      "Public/*": ["public/*"]
+    }
+  }
+}
